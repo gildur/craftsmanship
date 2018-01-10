@@ -1,12 +1,12 @@
-package com.github.gildur.craftsmanship.craftsmanship;
+package com.github.gildur.awsdemo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CraftsmanshipApplication {
+public class AwsDemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CraftsmanshipApplication.class, args);
+		SpringApplication.run(AwsDemoApplication.class, args);
 	}
 }
