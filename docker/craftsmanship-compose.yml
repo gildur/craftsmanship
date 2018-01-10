@@ -1,0 +1,7 @@
+version: "2"
+
+services:
+    craftsmanship:
+        image: 500408330564.dkr.ecr.us-east-2.amazonaws.com/craftsmanship:0.0.1-SNAPSHOT
+        ports:
+            - "80:8080"
