@@ -5,14 +5,17 @@ language: java
 services:
   - docker
 
-script:
-  - pip install --user awscli
-  - export PATH=$PATH:$HOME/.local/bin # put aws-cli in the path
+install:
+  - sudo pip install awscli
   - sudo curl -o /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest
   - sudo chmod +x /usr/local/bin/ecs-cli
+
+script:
   - eval $(aws ecr get-login --region us-east-2 | sed 's/-e none//') #needs AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY envvars
   - ./gradlew pushImage
+
+deploy:
   - ecs-cli configure --cluster 1mindemo --region us-east-2
   - ecs-cli compose --file docker/craftsmanship-compose.yml service down
-  - sleep 5
+  - sleep 15
   - ecs-cli compose --file docker/craftsmanship-compose.yml service up
