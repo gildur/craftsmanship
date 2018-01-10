@@ -11,7 +11,7 @@ apply plugin: com.bmuschko.gradle.docker.DockerRemoteApiPlugin
 
 import com.bmuschko.gradle.docker.tasks.image.*
 
-task createDockerfile(type: Dockerfile) {
+task createDockerfile(type: Dockerfile, dependsOn: build) {
     destFile = project.file('build/Dockerfile')
     from 'openjdk:8'
     maintainer 'Piotr Wolny "gildur@gmail.com"'
@@ -20,9 +20,11 @@ task createDockerfile(type: Dockerfile) {
     exposePort 8080
 }
 
-task buildImage(type: DockerBuildImage) {
-    dependsOn createDockerfile
+task buildImage(type: DockerBuildImage, dependsOn: createDockerfile) {
     inputDir = createDockerfile.destFile.parentFile
     tag = "500408330564.dkr.ecr.us-east-2.amazonaws.com/craftsmanship:${version}"
 }
-buildImage.dependsOn build
+
+task pushImage(type: DockerPushImage, dependsOn: buildImage) {
+    imageName = buildImage.tag
+}

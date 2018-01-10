@@ -5,4 +5,8 @@ language: java
 services:
   - docker
 
-script: ./gradlew buildImage
+script:
+  - pip install --user awscli
+  - export PATH=$PATH:$HOME/.local/bin # put aws-cli in the path
+  - eval $(aws ecr get-login --region us-east-1 | sed 's/-e none//') #needs AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY envvars
+  - ./gradlew pushImage
